@@ -507,6 +507,15 @@
         </div>
     </div>
 
+    <div class="modal hidden" id="kissDayModal">
+        <div class="modal-content">
+            <h2>💋 Kiss Day 💋</h2>
+            <img src="assets/images/kiss.jpeg" alt="Kiss Day" class="modal-image">
+            <p class="first-paragraph">Sending you a thousand kisses!</p>
+            <p>Mwah! 💋 May our love continue to grow stronger with each passing day.</p>
+            <button class="btn btn-yes" onclick="closeModal('kissDayModal')">Send Kisses Back</button>
+        </div>
+    </div>
 
     <div class="modal" id="valentineDayModal">
         <div class="modal-content">
@@ -541,73 +550,6 @@
         <h2>Valentine's Week</h2>
         <div class="progress-days" id="progressDays">
             <!-- Days will be added here by JavaScript -->
-        </div>
-    </div>
-
-    <!-- Day Modals -->
-    <div class="modal hidden" id="roseDayModal">
-        <div class="modal-content">
-            <h2>🌹 Rose Day 🌹</h2>
-            <p>Roses are red, violets are blue, I'm so happy to have someone as special as you!</p>
-            <button class="btn btn-yes" onclick="closeModal('roseDayModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="modal hidden" id="proposeDayModal">
-        <div class="modal-content">
-            <h2>💍 Propose Day 💍</h2>
-            <p>Every love story is beautiful, but ours is my favorite. Will you be mine forever?</p>
-            <button class="btn btn-yes" onclick="closeModal('proposeDayModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="modal hidden" id="chocolateDayModal">
-        <div class="modal-content">
-            <h2>🍫 Chocolate Day 🍫</h2>
-            <p>Just like chocolate makes everything better, you make my life sweeter every day!</p>
-            <button class="btn btn-yes" onclick="closeModal('chocolateDayModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="modal hidden" id="teddyDayModal">
-        <div class="modal-content">
-            <h2>🧸 Teddy Day 🧸</h2>
-            <p>This teddy is soft and cuddly, just like my heart when I'm with you!</p>
-            <button class="btn btn-yes" onclick="closeModal('teddyDayModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="modal hidden" id="promiseDayModal">
-        <div class="modal-content">
-            <h2>🤝 Promise Day 🤝</h2>
-            <p>I promise to stand by your side through all of life's ups and downs. I love you!</p>
-            <button class="btn btn-yes" onclick="closeModal('promiseDayModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="modal hidden" id="hugDayModal">
-        <div class="modal-content">
-            <h2>🤗 Hug Day 🤗</h2>
-            <p>Sending you the warmest virtual hug! Can't wait to hold you in my arms!</p>
-            <button class="btn btn-yes" onclick="closeModal('hugDayModal')">Close</button>
-        </div>
-    </div>
-
-    <div class="modal" id="kissDayModal">
-        <div class="modal-content">
-            <h2>💋 Kiss Day 💋</h2>
-            <img src="assets/images/kiss.jpeg" alt="Kiss Day" class="modal-image">
-            <p>A kiss is a lovely trick designed by nature to stop speech when words become superfluous.</p>
-            <p>Sending you a gentle kiss, sealed with love!</p>
-            <button class="btn btn-yes kiss-button" onclick="closeModal('kissDayModal')">💋</button>
-        </div>
-    </div>
-
-    <div class="modal hidden" id="valentineDayModal">
-        <div class="modal-content">
-            <h2>💝 Valentine's Day 💝</h2>
-            <p>Happy Valentine's Day, my love! You make every day special just by being in my life. I love you more than words can express!</p>
-            <button class="btn btn-yes" onclick="closeModal('valentineDayModal')">Close</button>
         </div>
     </div>
 
@@ -649,8 +591,8 @@
 
         // Check if today is the specific day
         function isDayAvailable(day) {
-            // Unlock all days
-            return true;
+            const today = new Date();
+            return today.getDate() >= day.day && today.getMonth() === day.month - 1;
         }
 
         // Initialize the progress bar with Valentine's week days
