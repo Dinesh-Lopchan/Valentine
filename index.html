@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#ff6b8b">
+    <title>Will You Be My Valentine? ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h1, h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #ff6b8b;
+            margin: 0 0 5px 0;  /* Reduced bottom margin */
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-yes {
+            background-color: #ff6b8b;
+            color: white;
+        }
+
+        .btn-no {
+            background-color: #f0f0f0;
+            color: #333;
+            position: relative;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .kiss-button {
+            font-size: 1.2em;
+            line-height: 1;
+            height: 40px;
+            width: 60px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin: 10px auto 0;
+        }
+
+        /* Modal Images */
+        .modal-image {
+            max-width: 80%;
+            max-height: 300px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 10px auto;
+            display: block;
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255, 107, 139, 0.15);
+            object-fit: contain;
+        }
+
+        .modal-image:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(255, 107, 139, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .modal-image {
+                max-height: 180px;
+                max-width: 90%;
+                margin: 8px auto;
+            }
+        }
+
+        .progress-container {
+            display: none;
+            text-align: center;
+            margin: 30px auto;
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+        
+        .progress-container h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #ff4d6d;
+            font-size: 3.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 20px 0 40px;
+            background: linear-gradient(45deg, #ff4d6d, #ff8e9e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+        }
+        
+        .progress-container h2::before,
+        .progress-container h2::after {
+            content: '💖';
+            position: relative;
+            margin: 0 10px;
+            animation: heartBeat 1.5s infinite;
+        }
+        
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+
+        .progress-days {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(120px, auto);
+            gap: 15px;
+            width: 90%;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        @media (min-width: 1024px) {
+            .day {
+                min-height: 150px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        /* Remove the after pseudo-element as we don't need it for 4×2 layout */
+        .progress-days::after {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .progress-days {
+                max-width: 900px;
+                gap: 12px;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .progress-container h2 {
+                font-size: 1.6em;
+                white-space: nowrap;
+                padding: 0 5px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 90%;
+                margin: 10px auto 15px;
+                margin: 10px auto 15px;
+                text-align: center;
+                display: block;
+                width: 100%;
+                line-height: 1.2;
+            }
+
+            .progress-days {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                max-width: 100%;
+                padding: 10px;
+                gap: 12px;
+                margin: 0 auto;  /* Center the grid */
+                justify-items: center;  /* Center items horizontally */
+                width: calc(100% - 20px);  /* Account for padding */
+            }
+            
+            .day {
+                padding: 8px 2px;
+                min-height: 60px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .day-name {
+                display: none; /* Hide day names on mobile */
+            }
+            
+            .day-date {
+                font-size: 1.1em; /* Larger date */
+                margin: 0;
+                color: #ff6b8b;
+                font-weight: 600;
+                text-align: center;
+            }
+            
+            /* No need for ::before since we're showing full date in text */
+        }
+
+        .day {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .day.locked {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .day:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .day::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b8b, #ff8e9e);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .day:hover::before {
+            height: 8px;
+            opacity: 1;
+        }
+
+        .day-name {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 1.1em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .day-date {
+            font-size: 13px;
+            color: #ff6b8b;
+            font-weight: 500;
+            margin-top: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .day.completed {
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            position: relative;
+            opacity: 0.8;
+        }
+        
+        .day.completed::after {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .day.active {
+            background: linear-gradient(135deg, #fff5f7 0%, #fff 100%);
+            border: 2px solid #ff6b8b;
+            animation: pulse 2s infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .floating {
+            position: fixed;
+            font-size: 1.5em;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .heart {
+            color: #ff6b8b;
+            font-size: 1.5em;
+            margin: -5px 0 10px 0;  /* Adjusted margins */
+            animation: heartbeat 1.5s infinite;
+            display: block;  /* Changed to block for better spacing control */
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            pointer-events: none;
+            animation: confetti-fall 5s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Unavailable Day Modal -->
+    <div class="modal" id="unavailableModal">
+        <div class="modal-content">
+            <h2>Not So Fast! ❤️</h2>
+            <p>This day's surprise is still being prepared with love...</p>
+            <p>Good things come to those who wait! Come back when this day arrives for a special surprise. 💝</p>
+            <button class="btn btn-yes" onclick="closeModal('unavailableModal')">I'll wait patiently!</button>
+        </div>
+    </div>
+
+    <!-- Day Modals -->
+    <div class="modal" id="roseDayModal">
+        <div class="modal-content">
+            <h2>🌹 Rose Day 🌹</h2>
+            <img src="/assets/images/rose.jpeg" alt="Rose Day" class="modal-image">
+            <p>The way you surprised me with the Red Roses and the way I preserved it for you</p>
+            <p>May our relation have Fresh Begginings with Beautiful Momeries</p>
+            <button class="btn btn-yes" onclick="closeModal('roseDayModal')">Continue the Journey</button>
+        </div>
+    </div>
+
+    <div class="modal" id="proposeDayModal">
+        <div class="modal-content">
+            <h2>💍 Propose Day 💍</h2>
+            <img src="/assets/images/propose.jpeg" alt="Propose Day" class="modal-image">
+            <p>Let me you ask you again on this Beautiful Day</p>
+            <p>Will you be my listener to my yapping, my extra expense to my savings and at last my everything</p>
+            <button class="btn btn-yes" onclick="closeModal('proposeDayModal')">With All My Heart</button>
+        </div>
+    </div>
+
+    <div class="modal" id="chocolateDayModal">
+        <div class="modal-content">
+            <h2>🍫 Chocolate Day 🍫</h2>
+            <img src="/assets/images/chocolate.jpeg" alt="Chocolate Day" class="modal-image">
+            <p>I was never was a fan of cheese and cakes</p>
+            <p>Who knew my heart would be melted by your cheese cakes and my preference will change</p>
+            <button class="btn btn-yes" onclick="closeModal('chocolateDayModal')">Yummy!</button>
+        </div>
+    </div>
+
+    <div class="modal" id="teddyDayModal">
+        <div class="modal-content">
+            <h2>🧸 Teddy Day 🧸</h2>
+            <img src="/assets/images/teddy.jpeg" alt="Teddy Day" class="modal-image">
+            <p>Teddy the Bear with the Kanxu my Dear</p>
+            <p>Even when we're apart mostly, may this teddy remind you of my warmth and my love at the end of the day</p>
+            <button class="btn btn-yes" onclick="closeModal('teddyDayModal')">Teddy</button>
+        </div>
+    </div>
+
+    <div class="modal" id="promiseDayModal">
+        <div class="modal-content">
+            <h2>🤝 Promise Day 🤝</h2>
+            <img src="/assets/images/promise.jpeg" alt="Promise Day" class="modal-image">
+            <p>Jasari tmro hatt samayeko xu</p>
+            <div class="love-letter">
+                <p>Tesari nae tmlae yo mero satt pani dirakhne nae xu</p>
+                <p>Forever yours,<br>❤️</p>
+            </div>
+            <button class="btn btn-yes" onclick="closeModal('promiseDayModal')">I Promise Too</button>
+        </div>
+    </div>
+
+    <div class="modal" id="hugDayModal">
+        <div class="modal-content">
+            <h2>🤗 Hug Day 🤗</h2>
+            <img src="/assets/images/hug.jpeg" alt="Hug Day" class="modal-image">
+            <p>Nothing can compare to the warmth of your hugs</p>
+            <p>Tmro angalo ko nyano Sparsha kasari bayan garu, Mann ma uthul puthul vayeka bhawana ka charu - lyrics from a song "Fifirey"</p>
+            <button class="btn btn-yes" onclick="closeModal('hugDayModal')">Hug Back</button>
+        </div>
+    </div>
+
+
+    <div class="modal" id="valentineDayModal">
+        <div class="modal-content">
+            <h2>💝 Happy Valentine's Day! 💝</h2>
+            <img src="/assets/images/valentine.jpeg" alt="Valentine's Day" class="modal-image">
+            <div class="love-letter">
+                <p>Jasari tmro hatt samayeko xu</p>
+                <p>Tesari nae tmlae yo mero satt pani dirakhne nae xu</p>
+                <p>Forever yours,<br>
+                    <span style="font-family: 'Dancing Script', cursive; font-size: 1.5em;">Dinesh (Pooks)</span>
+                </p>
+            </div>
+            <button class="btn btn-yes" onclick="closeModal('valentineDayModal')">I Love You Too! ❤️</button>
+        </div>
+    </div>
+
+    <!-- Initial Modal -->
+    <div class="modal active" id="initialModal">
+        <div class="modal-content">
+            <h2>Will you be my Valentine?</h2>
+            <span class="heart">❤️❤️❤️</span>
+            <p>I have something special planned for you this Valentine's week!</p>
+            <div>
+                <button class="btn btn-yes" id="btnYes">Yes! ❤️</button>
+                <button class="btn btn-no" id="btnNo">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Container (Shown after clicking Yes) -->
+    <div class="progress-container" id="progressContainer">
+        <h2>Valentine's Week</h2>
+        <div class="progress-days" id="progressDays">
+            <!-- Days will be added here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Day Modals -->
+    <div class="modal hidden" id="roseDayModal">
+        <div class="modal-content">
+            <h2>🌹 Rose Day 🌹</h2>
+            <p>Roses are red, violets are blue, I'm so happy to have someone as special as you!</p>
+            <button class="btn btn-yes" onclick="closeModal('roseDayModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="proposeDayModal">
+        <div class="modal-content">
+            <h2>💍 Propose Day 💍</h2>
+            <p>Every love story is beautiful, but ours is my favorite. Will you be mine forever?</p>
+            <button class="btn btn-yes" onclick="closeModal('proposeDayModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="chocolateDayModal">
+        <div class="modal-content">
+            <h2>🍫 Chocolate Day 🍫</h2>
+            <p>Just like chocolate makes everything better, you make my life sweeter every day!</p>
+            <button class="btn btn-yes" onclick="closeModal('chocolateDayModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="teddyDayModal">
+        <div class="modal-content">
+            <h2>🧸 Teddy Day 🧸</h2>
+            <p>This teddy is soft and cuddly, just like my heart when I'm with you!</p>
+            <button class="btn btn-yes" onclick="closeModal('teddyDayModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="promiseDayModal">
+        <div class="modal-content">
+            <h2>🤝 Promise Day 🤝</h2>
+            <p>I promise to stand by your side through all of life's ups and downs. I love you!</p>
+            <button class="btn btn-yes" onclick="closeModal('promiseDayModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="hugDayModal">
+        <div class="modal-content">
+            <h2>🤗 Hug Day 🤗</h2>
+            <p>Sending you the warmest virtual hug! Can't wait to hold you in my arms!</p>
+            <button class="btn btn-yes" onclick="closeModal('hugDayModal')">Close</button>
+        </div>
+    </div>
+
+    <div class="modal" id="kissDayModal">
+        <div class="modal-content">
+            <h2>💋 Kiss Day 💋</h2>
+            <img src="/assets/images/kiss.jpeg" alt="Kiss Day" class="modal-image">
+            <p>A kiss is a lovely trick designed by nature to stop speech when words become superfluous.</p>
+            <p>Sending you a gentle kiss, sealed with love!</p>
+            <button class="btn btn-yes kiss-button" onclick="closeModal('kissDayModal')">💋</button>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="valentineDayModal">
+        <div class="modal-content">
+            <h2>💝 Valentine's Day 💝</h2>
+            <p>Happy Valentine's Day, my love! You make every day special just by being in my life. I love you more than words can express!</p>
+            <button class="btn btn-yes" onclick="closeModal('valentineDayModal')">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Valentine's Week days
+        const valentineWeek = [
+            { id: 'rose', name: 'Rose Day', day: 7, month: 1 }, // Feb 7
+            { id: 'propose', name: 'Propose Day', day: 8, month: 1 }, // Feb 8
+            { id: 'chocolate', name: 'Chocolate Day', day: 9, month: 1 }, // Feb 9
+            { id: 'teddy', name: 'Teddy Day', day: 10, month: 1 }, // Feb 10
+            { id: 'promise', name: 'Promise Day', day: 11, month: 1 }, // Feb 11
+            { id: 'hug', name: 'Hug Day', day: 12, month: 1 }, // Feb 12
+            { id: 'kiss', name: 'Kiss Day', day: 13, month: 1 }, // Feb 13
+            { id: 'valentine', name: "Valentine's Day", day: 14, month: 1 } // Feb 14
+        ];
+
+        // DOM Elements
+        const initialModal = document.getElementById('initialModal');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressDays = document.getElementById('progressDays');
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+
+        // Initialize the "No" button movement
+        function initNoButton() {
+            btnNo.addEventListener('mouseover', (e) => {
+                const modalContent = document.querySelector('.modal-content');
+                const modalRect = modalContent.getBoundingClientRect();
+                
+                // Calculate new position
+                const x = Math.random() * (window.innerWidth - 150);
+                const y = Math.random() * (window.innerHeight - 100);
+                
+                btnNo.style.position = 'fixed';
+                btnNo.style.left = `${x}px`;
+                btnNo.style.top = `${y}px`;
+            });
+        }
+
+        // Check if today is the specific day
+        function isDayAvailable(day) {
+            // Unlock all days
+            return true;
+        }
+
+        // Initialize the progress bar with Valentine's week days
+        function initProgressBar() {
+            progressDays.innerHTML = '';
+            
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentDay = currentDate.getDate();
+            const currentMonth = currentDate.getMonth();
+            
+            valentineWeek.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                dayElement.id = `day-${day.id}`;
+                
+                // Create day elements
+                const dayName = document.createElement('div');
+                dayName.className = 'day-name';
+                dayName.textContent = day.name;
+                
+                const dayDate = document.createElement('div');
+                dayDate.className = 'day-date';
+                dayDate.textContent = `Feb ${day.day}`;
+                
+                // Check if the day is in the past or today
+                const dayDateObj = new Date(currentYear, day.month, day.day);
+                const isPastDay = (currentMonth > day.month) || 
+                                (currentMonth === day.month && currentDay > day.day);
+                const isToday = (currentMonth === day.month && currentDay === day.day);
+                const isFutureDay = (currentMonth < day.month) || 
+                                  (currentMonth === day.month && currentDay < day.day);
+                
+                // Set click handler based on date
+                if (isPastDay || isToday) {
+                    // Past or current day - make it interactive
+                    dayElement.style.opacity = '1';
+                    dayElement.style.cursor = 'pointer';
+                    dayElement.classList.add('completed');
+                    
+                    dayElement.onclick = () => showModal(`${day.id}DayModal`);
+                    
+                    // If it's today, show the modal automatically
+                    if (isToday) {
+                        setTimeout(() => {
+                            showModal(`${day.id}DayModal`);
+                        }, 1000);
+                    }
+                } else {
+                    // Future day - disable interaction
+                    dayElement.style.opacity = '0.6';
+                    dayElement.style.cursor = 'not-allowed';
+                    dayElement.title = `Available on Feb ${day.day}`;
+                    
+                    // Remove any click handlers
+                    dayElement.onclick = () => showModal('unavailableModal');
+                }
+                
+                // Add the day to the DOM
+                dayElement.appendChild(dayName);
+                dayElement.appendChild(dayDate);
+                progressDays.appendChild(dayElement);
+            });
+        }
+
+        // Show modal function
+        function showModal(modalId) {
+            // Check if the day is available
+            const dayId = modalId.replace('Modal', '');
+            const day = valentineWeek.find(d => d.id === dayId);
+            
+            if (day && !isDayAvailable(day)) {
+                showModal('unavailableModal');
+                return;
+            }
+            
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            
+            // Hide all modals first
+            document.querySelectorAll('.modal').forEach(m => {
+                m.classList.remove('active');
+            });
+            
+            // Show the requested modal
+            modal.classList.add('active');
+            
+            // Add confetti for special modals
+            if (modalId === 'valentineDayModal') {
+                createConfetti(200);
+            }
+        }
+
+        // Close modal function
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Create confetti
+        function createConfetti(count) {
+            const colors = ['#ff6b8b', '#ff8e9e', '#ffb3c1', '#ffd7e0', '#ffebf0'];
+            
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 12 + 5 + 'px';
+                confetti.style.height = Math.random() * 12 + 5 + 'px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                document.body.appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '💝', '💘'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(heart);
+            }
+        }
+
+
+        // Initialize everything when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initNoButton();
+            createFloatingHearts();
+            
+            // Show initial modal and hide progress container
+            initialModal.classList.add('active');
+            progressContainer.style.display = 'none';
+            
+            // Handle "Yes" button click
+            btnYes.addEventListener('click', (e) => {
+                e.preventDefault();
+                initialModal.classList.remove('active');
+                progressContainer.style.display = 'block';
+                initProgressBar(); // Initialize progress bar after clicking Yes
+                createConfetti(30);
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

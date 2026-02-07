@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build files
+.vite/
+dist/
+
+# Environment variables
+.env
+.env.local
+
+# Editor directories and files
+.DS_Store
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
