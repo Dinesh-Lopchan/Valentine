@@ -449,7 +449,7 @@
             <h2>🌹 Rose Day 🌹</h2>
             <img src="assets/images/rose.jpeg" alt="Rose Day" class="modal-image">
             <p class="first-paragraph">The way you surprised me with those Red Roses and the way I carefully preserved them</p>
-            <p>"In the same way, may our relation always bloom with Fresh Begginings and be filled with Beautiful Memories we will cherish"</p>
+            <p>In the same way, may our relation always bloom with Fresh Begginings and be filled with Beautiful Memories we will cherish</p>
             <button class="btn btn-yes" onclick="closeModal('roseDayModal')">Continue the Journey</button>
         </div>
     </div>
@@ -471,8 +471,8 @@
         <div class="modal-content">
             <h2>🍫 Chocolate Day 🍫</h2>
             <img src="assets/images/chocolate.jpeg" alt="Chocolate Day" class="modal-image">
-            <p class="first-paragraph">I was never was a fan of cheese and cakes</p>
-            <p>Who knew my heart would be melted by your cheese cakes and my preference will change</p>
+            <p class="first-paragraph">I was never was a fan of cheese or cakes</p>
+            <p>who knew my heart would melt for your cheesecakes, and somehow, my preferences would change</p>
             <button class="btn btn-yes" onclick="closeModal('chocolateDayModal')">Yummy!</button>
         </div>
     </div>
@@ -481,8 +481,8 @@
         <div class="modal-content">
             <h2>🧸 Teddy Day 🧸</h2>
             <img src="assets/images/teddy.jpeg" alt="Teddy Day" class="modal-image">
-            <p class="first-paragraph">Teddy the Bear with the Kanxu my Dear</p>
-            <p>Even when we're apart mostly, may this teddy remind you of my warmth and my love at the end of the day</p>
+            <p class="first-paragraph">Teddy the Bear with Kanxu, my Dear</p>
+            <p>Even when we are apart, let this little teddy remind you of my warmth, my hugs, and my love waiting for you at the end of every day</p>
             <button class="btn btn-yes" onclick="closeModal('teddyDayModal')">Teddy</button>
         </div>
     </div>
@@ -491,9 +491,9 @@
         <div class="modal-content">
             <h2>🤝 Promise Day 🤝</h2>
             <img src="assets/images/promise.jpeg" alt="Promise Day" class="modal-image">
-            <p class="first-paragraph">Jasari tmro hatt samayeko xu</p>
+            <p class="first-paragraph">Jasari tmro hatt samayera agadi badi raheko xu</p>
             <div class="love-letter">
-                <p>Tesari nae tmlae yo mero satt pani dirakhne nae xu</p>
+                <p>Tesari nae tmlae yo mero satt pani dirakhne nae xu mero maya</p>
                 <p>Forever yours,<br>❤️</p>
             </div>
             <button class="btn btn-yes" onclick="closeModal('promiseDayModal')">I Promise Too</button>
@@ -505,7 +505,7 @@
             <h2>🤗 Hug Day 🤗</h2>
             <img src="assets/images/hug.jpeg" alt="Hug Day" class="modal-image">
             <p class="first-paragraph">Nothing can compare to the warmth of your hugs</p>
-            <p>Tmro angalo ko nyano Sparsha kasari bayan garu, Mann ma uthul puthul vayeka bhawana ka charu - lyrics from a song "Fifirey"</p>
+            <p>Every time I hold you, the world feels softer, brighter, and full of love. Let me be in your arms for forever </p>
             <button class="btn btn-yes" onclick="closeModal('hugDayModal')">Hug Back</button>
         </div>
     </div>
@@ -514,9 +514,9 @@
         <div class="modal-content">
             <h2>💋 Kiss Day 💋</h2>
             <img src="assets/images/kiss.jpeg" alt="Kiss Day" class="modal-image">
-            <p class="first-paragraph">Sending you a thousand kisses!</p>
-            <p>Mwah! 💋 May our love continue to grow stronger with each passing day.</p>
-            <button class="btn btn-yes" onclick="closeModal('kissDayModal')">Send Kisses Back</button>
+            <p class="first-paragraph">Chup-pa Chup-pa Chup-pa</p>
+            <p>Kissing you will always be my favorite activity of the day but the way you kiss me in my cheeks never fails to give me butterflies</p>
+            <button class="btn btn-yes" onclick="closeModal('kissDayModal')">Send Kisses 💋</button>
         </div>
     </div>
 
@@ -525,10 +525,12 @@
             <h2>💝 Happy Valentine's Day! 💝</h2>
             <img src="assets/images/valentine.jpeg" alt="Valentine's Day" class="modal-image">
             <div class="love-letter">
-                <p class="first-paragraph">Jasari tmro hatt samayeko xu</p>
-                <p>Tesari nae tmlae yo mero satt pani dirakhne nae xu</p>
-                <p>Forever yours,<br>
-                    <span style="font-family: 'Dancing Script', cursive; font-size: 1.5em;">Dinesh (Pooks)</span>
+                <p class="first-paragraph">Our journey started on this day</p>
+                <p>The first date will be forever memorable for me. We played, laughed, got free drinks and talked about us. </p>
+                <p>I knew something beautiful had begun. Every smile, every conversation, every little memory since then has made me fall deeper. I want to keep building this love we started, hand in hand, heart to heart</p>
+                <p>Looks like you are stuck with me… my forever Valentine</p>
+                <p><br>
+                    <span style="font-family: 'Dancing Script', cursive; font-size: 1.5em; color: red;">I  Love  You  Kanxu</span>
                 </p>
             </div>
             <button class="btn btn-yes" onclick="closeModal('valentineDayModal')">I Love You Too! ❤️</button>
@@ -595,7 +597,10 @@
         // Check if today is the specific day
         function isDayAvailable(day) {
             const today = new Date();
-            return today.getDate() >= day.day && today.getMonth() === day.month - 1;
+            const currentYear = today.getFullYear();
+            const todayDate = new Date(currentYear, today.getMonth(), today.getDate());
+            const dayDate = new Date(currentYear, day.month, day.day);
+            return todayDate >= dayDate;
         }
 
         // Initialize the progress bar with Valentine's week days
